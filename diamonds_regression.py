@@ -1,5 +1,3 @@
-import numpy as np
-import pandas as pd
 import joblib
 import streamlit as st
 
