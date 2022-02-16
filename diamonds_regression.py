@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import os
-import joblib
+from sklearn.externals import joblib
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -33,9 +33,8 @@ elif cut == 'Very Good':
 # Depth
 depth = st.slider('Depth', 0.0, 100.0, 50.0)
 
-# Depth
+# Table
 table = st.slider('Table', 0.0, 100.0, 50.0)
-
 
 data = [carat] + cut_list + [depth, table]
 prediction = round (loaded_model.predict([data])[0])
