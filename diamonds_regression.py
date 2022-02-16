@@ -1,12 +1,7 @@
 import numpy as np
 import pandas as pd
-import os
-from sklearn.externals import joblib
+import joblib
 import streamlit as st
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-sns.set(style='white', font_scale=5)
 
 # load the model from disk
 loaded_model = joblib.load('final_diamonds_regression.sav')
