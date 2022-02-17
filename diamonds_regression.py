@@ -1,10 +1,66 @@
 import joblib
 import streamlit as st
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.set(style='white', font_scale=1, rc = {'figure.figsize':(10,5)})
 
 # load the model from disk
 loaded_model = joblib.load('final_diamonds_regression.sav')
 
+#####################################Data Frame#####################################
+
+# Load DataFrame
+@st.cache
+def load_data():
+    return pd.read_csv('diamonds_regression.csv')
+
+if st.sidebar.checkbox('Show DataFrame'):
+    st.header('Data Frame')
+    data = load_data().head(20)
+    data
+    
+#################################Correlation Heatmap#################################
+
+if st.sidebar.checkbox('Show Correlation Heatmap'):
+    data = load_data()
+    fig, ax = plt.subplots()
+    sns.heatmap(data.corr(), annot=True)
+    
+    st.header('Correlation Heatmap')
+    st.pyplot(fig)
+    st.write("Based on the correlation heatmap, the price is highly " +
+             "correlated with attribute carat, x, y, and z — and less correlated with " +
+             "table and depth.")
+
+    
+####################################Scatter Plot#####################################
+
+if st.sidebar.checkbox('Show Scatter Plot'):
+    data = load_data()
+    fig2, ax = plt.subplots()
+    sns.scatterplot(data=data, x='carat', y='x', hue='price')
+    
+    st.header('Scatter Plot')
+    st.pyplot(fig2)
+    st.write("The price is directly proportional to the attributes 'Carat' and 'X'")
+
+####################################Scatter Plot#####################################
+
+if st.sidebar.checkbox('Show Line Plot'):
+    data = load_data()
+    fig3, ax = plt.subplots()
+    sns.lineplot(data=data, x='carat', y='price')
+    
+    st.header('Line Plot of Price of Carat')
+    st.pyplot(fig3)
+
+##################################Price Prediction##################################
+
 st.header('Estimate Diamond Price')
+st.write("A model was trained with the attributes: Carat, Cut, Depth, Table, and Price (having Price as the target)")
+st.write("However, based on the graph/charts above, Price is not highly correlated with Table and Depth but with attributes x, y, and z.")
 
 # Carat
 carat = st.slider('Carat', 0.0, 5.0, 0.1)
